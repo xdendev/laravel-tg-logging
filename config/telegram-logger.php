@@ -9,23 +9,12 @@ return [
     | Master switch
     |--------------------------------------------------------------------------
     |
-    | Disable sending to Telegram completely without touching log channels.
+    | Disable sending to Telegram completely without touching log channels,
+    | e.g. TELEGRAM_LOGGER_ENABLED=false in the .env of local environments.
     |
     */
 
     'enabled' => env('TELEGRAM_LOGGER_ENABLED', true),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Environments
-    |--------------------------------------------------------------------------
-    |
-    | APP_ENV values in which messages are sent. Accepts an array or a comma
-    | separated string ("production,staging"). Empty / null means "all".
-    |
-    */
-
-    'environments' => env('TELEGRAM_LOGGER_ENVIRONMENTS'),
 
     /*
     |--------------------------------------------------------------------------

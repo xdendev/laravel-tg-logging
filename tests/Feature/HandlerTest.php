@@ -305,17 +305,15 @@ final class HandlerTest extends TestCase
     }
 
     #[Test]
-    public function it_is_disabled_outside_of_configured_environments(): void
+    public function it_can_be_disabled_globally_or_per_channel(): void
     {
         $this->fakeTelegram();
+        config()->set('logging.channels.tg_off', ['driver' => 'telegram', 'enabled' => false]);
 
-        config()->set('telegram-logger.environments', 'production,staging');
-        Log::channel('telegram')->error('no');
-
-        config()->set('telegram-logger.environments', ['testing']);
+        Log::channel('tg_off')->error('no');
         Log::channel('telegram')->error('yes');
 
-        config()->set('telegram-logger.enabled', false);
+        config()->set('telegram-logger.enabled', 'false');
         Log::channel('telegram')->error('no');
 
         Http::assertSentCount(1);

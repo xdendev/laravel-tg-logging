@@ -32,7 +32,6 @@ final class ChannelConfig
     /**
      * @param  array{connection: ?string, queue: ?string}|null  $queue
      * @param  list<string>  $ignore
-     * @param  list<string>|null  $environments
      * @param  list<Level>  $silentLevels
      * @param  array<string, mixed>  $options
      */
@@ -56,7 +55,6 @@ final class ChannelConfig
         public readonly int $maxMessageLength,
         public readonly int $maxMessages,
         public readonly array $ignore,
-        public readonly ?array $environments,
         public readonly array $silentLevels,
         public readonly bool $disableWebPagePreview,
         public readonly array $options,
@@ -160,7 +158,6 @@ final class ChannelConfig
             maxMessageLength: min(4096, max(256, self::int($c['max_message_length'] ?? 4096))),
             maxMessages: max(1, self::int($c['max_messages'] ?? 3)),
             ignore: self::stringList($c['ignore'] ?? []),
-            environments: self::stringList($c['environments'] ?? null) ?: null,
             silentLevels: array_map(
                 static fn (string $level): Level => Logger::toMonologLevel($level), // @phpstan-ignore argument.type (validated by Monolog)
                 self::stringList($c['silent_levels'] ?? []),
@@ -173,12 +170,6 @@ final class ChannelConfig
     public function isConfigured(): bool
     {
         return $this->token !== null && $this->chatId !== null;
-    }
-
-    public function isActiveFor(string $environment): bool
-    {
-        return $this->enabled
-            && ($this->environments === null || in_array($environment, $this->environments, true));
     }
 
     public function isIgnored(Throwable $exception): bool

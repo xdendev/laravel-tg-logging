@@ -42,15 +42,13 @@ final class TestCommand extends Command
             return self::FAILURE;
         }
 
-        $environment = (string) $this->laravel->environment();
-
         $this->components->twoColumnDetail('Channel', $config->channel);
         $this->components->twoColumnDetail('Bot token', $config->maskedToken());
         $this->components->twoColumnDetail('Chat ID', $config->chatId ?? '(not set)');
         $this->components->twoColumnDetail('Thread ID', $config->threadId ?? '(none)');
         $this->components->twoColumnDetail('Parse mode', $config->parseMode->value);
         $this->components->twoColumnDetail('Delivery', $config->queue === null ? 'sync' : 'queue '.($config->queue['connection'] ?? 'default'));
-        $this->components->twoColumnDetail("Enabled for [{$environment}]", $config->isActiveFor($environment) ? 'yes' : 'no');
+        $this->components->twoColumnDetail('Enabled', $config->enabled ? 'yes' : 'no');
         $this->newLine();
 
         if (! $config->isConfigured() || $config->token === null) {
@@ -59,8 +57,8 @@ final class TestCommand extends Command
             return self::FAILURE;
         }
 
-        if (! $config->isActiveFor($environment)) {
-            $this->components->warn("Telegram logging is disabled for [{$environment}] (see \"enabled\" / \"environments\"). Sending the test message anyway.");
+        if (! $config->enabled) {
+            $this->components->warn('Telegram logging is disabled (TELEGRAM_LOGGER_ENABLED). Sending the test message anyway.');
         }
 
         $message = $this->option('message');

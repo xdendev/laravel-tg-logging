@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Xden\TelegramLogger;
 
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Contracts\Foundation\Application;
 use Throwable;
 use Xden\TelegramLogger\Config\ChannelConfig;
 use Xden\TelegramLogger\Formatting\Markup;
@@ -42,7 +41,7 @@ class TelegramNotifier
                 static fn (mixed $value): bool => $value !== null,
             ));
 
-            if (! $config->isActiveFor($this->environment())) {
+            if (! $config->enabled) {
                 return false;
             }
 
@@ -83,10 +82,5 @@ class TelegramNotifier
         $base = ChannelConfig::overridesFromChannel((array) config("logging.channels.{$channel}"), $channel);
 
         return ChannelConfig::resolve(array_merge($base, $overrides), $channel);
-    }
-
-    private function environment(): string
-    {
-        return $this->app instanceof Application ? $this->app->environment() : 'production';
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Xden\TelegramLogger;
 
 use Illuminate\Container\Container;
-use Illuminate\Contracts\Foundation\Application;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Level;
 use Monolog\LogRecord;
@@ -115,7 +114,7 @@ class TelegramHandler extends AbstractProcessingHandler
         $app = Container::getInstance();
         $config = $this->channelConfig();
 
-        if (! $config->isActiveFor($this->environment($app))) {
+        if (! $config->enabled) {
             return;
         }
 
@@ -152,16 +151,5 @@ class TelegramHandler extends AbstractProcessingHandler
             : $record->level->getName().'|'.$record->message;
 
         return $config->destination().'|'.$event;
-    }
-
-    private function environment(Container $app): string
-    {
-        if ($app instanceof Application) {
-            return $app->environment();
-        }
-
-        $env = config('app.env');
-
-        return is_string($env) ? $env : 'production';
     }
 }

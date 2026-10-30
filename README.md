@@ -181,8 +181,7 @@ Exceptions listed in `$dontReport` / `dontReport()` never reach any log channel.
 
 | Key | Env | Default | |
 |-----|-----|---------|---|
-| `enabled` | `TELEGRAM_LOGGER_ENABLED` | `true` | master switch |
-| `environments` | `TELEGRAM_LOGGER_ENVIRONMENTS` | all | e.g. `production,staging` |
+| `enabled` | `TELEGRAM_LOGGER_ENABLED` | `true` | master switch, set `false` in the `.env` of local/staging |
 | `token` | `TELEGRAM_LOGGER_BOT_TOKEN` | | |
 | `chat_id` | `TELEGRAM_LOGGER_CHAT_ID` | | |
 | `thread_id` | `TELEGRAM_LOGGER_THREAD_ID` | | forum topic |
@@ -288,7 +287,7 @@ It prints the effective settings (the token is masked), sends a test record with
 | `429 Too Many Requests` | enable `throttle` and/or the queue |
 | `Could not reach Telegram API` | network/firewall, set `TELEGRAM_LOGGER_PROXY` or `api_host` |
 
-Nothing arrives and no error in the command? Check `enabled`, `environments` and the channel `level`, and look at the PHP error log (`[telegram-logger]` lines).
+Nothing arrives and no error in the command? Check `TELEGRAM_LOGGER_ENABLED` and the channel `level`, and look at the PHP error log (`[telegram-logger]` lines).
 
 ## Migrating from grkamil/laravel-telegram-logging
 
