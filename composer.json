@@ -1,0 +1,63 @@
+{
+    "name": "xden/laravel-telegram-logger",
+    "description": "Send Laravel logs and exception alerts to Telegram chats, groups and forum topics.",
+    "keywords": ["laravel", "telegram", "logging", "monolog", "alerts", "notifications"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "xden",
+            "email": "mail@xden.dev"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "illuminate/bus": "^10.48 || ^11.0 || ^12.0 || ^13.0",
+        "illuminate/cache": "^10.48 || ^11.0 || ^12.0 || ^13.0",
+        "illuminate/console": "^10.48 || ^11.0 || ^12.0 || ^13.0",
+        "illuminate/contracts": "^10.48 || ^11.0 || ^12.0 || ^13.0",
+        "illuminate/http": "^10.48 || ^11.0 || ^12.0 || ^13.0",
+        "illuminate/log": "^10.48 || ^11.0 || ^12.0 || ^13.0",
+        "illuminate/queue": "^10.48 || ^11.0 || ^12.0 || ^13.0",
+        "illuminate/support": "^10.48 || ^11.0 || ^12.0 || ^13.0",
+        "illuminate/view": "^10.48 || ^11.0 || ^12.0 || ^13.0",
+        "monolog/monolog": "^3.0"
+    },
+    "require-dev": {
+        "guzzlehttp/guzzle": "^7.8",
+        "larastan/larastan": "^2.9 || ^3.0",
+        "laravel/pint": "^1.13",
+        "orchestra/testbench": "^8.22 || ^9.0 || ^10.0 || ^11.0",
+        "phpunit/phpunit": "^10.5 || ^11.0 || ^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Xden\\TelegramLogger\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Xden\\TelegramLogger\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan analyse --memory-limit=1G",
+        "format": "pint"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Xden\\TelegramLogger\\TelegramLoggerServiceProvider"
+            ],
+            "aliases": {
+                "TelegramLog": "Xden\\TelegramLogger\\Facades\\TelegramLog"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
